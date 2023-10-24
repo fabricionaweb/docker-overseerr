@@ -24,7 +24,8 @@ RUN apk add --no-cache build-base python3 nodejs-current && corepack enable
 # node_modules
 COPY --from=source /src/package.json /src/yarn.lock /src/tsconfig.json ./
 ENV NEXT_TELEMETRY_DISABLED=1 CYPRESS_INSTALL_BINARY=0 HUSKY=0
-RUN yarn install --frozen-lockfile --network-timeout 120000
+RUN yarn global add yarn-deduplicate && yarn-deduplicate yarn.lock && \
+    yarn install --frozen-lockfile --network-timeout 120000
 
 # build app
 COPY --from=source /src/next.config.js /src/next-env.d.ts /src/babel.config.js \
@@ -38,7 +39,6 @@ RUN yarn build
 RUN yarn install --production --ignore-scripts --prefer-offline && \
     rm -rf ./.next/cache && \
     rm -rf ./node_modules/@next/swc-linux-arm64-gnu && \
-    rm -rf ./node_modules/react-ace/node_modules/ace-builds && \
     find ./ -type f \( \
         -iname "*.cmd" -o -iname "*.bat" -o \
         -iname "*.map" -o -iname "*.md" -o \
