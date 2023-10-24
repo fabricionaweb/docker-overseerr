@@ -1,0 +1,20 @@
+Use ace-builds minified
+
+---
+ src/components/JSONEditor/index.tsx | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/components/JSONEditor/index.tsx b/src/components/JSONEditor/index.tsx
+index 1bb415c7..92cfdd48 100644
+--- a/src/components/JSONEditor/index.tsx
++++ b/src/components/JSONEditor/index.tsx
+@@ -1,6 +1,6 @@
+-import 'ace-builds/src-noconflict/ace';
+-import 'ace-builds/src-noconflict/mode-json';
+-import 'ace-builds/src-noconflict/theme-dracula';
++import 'ace-builds/src-min-noconflict/ace';
++import 'ace-builds/src-min-noconflict/mode-json';
++import 'ace-builds/src-min-noconflict/theme-dracula';
+ import type { HTMLAttributes } from 'react';
+ import AceEditor from 'react-ace';
+ interface JSONEditorProps extends HTMLAttributes<HTMLDivElement> {
