@@ -17,13 +17,13 @@ RUN find ./ -name "*.patch" -print0 | sort -z | xargs -t -0 -n1 patch -p1 -i
 
 # build stage ==================================================================
 FROM base AS build-backend
+ENV NEXT_TELEMETRY_DISABLED=1 CYPRESS_INSTALL_BINARY=0
 
 # dependencies
 RUN apk add --no-cache build-base python3 nodejs-current && corepack enable
 
 # node_modules
 COPY --from=source /src/package.json /src/yarn.lock /src/tsconfig.json ./
-ENV NEXT_TELEMETRY_DISABLED=1 CYPRESS_INSTALL_BINARY=0 HUSKY=0
 RUN yarn global add yarn-deduplicate && yarn-deduplicate yarn.lock && \
     yarn install --frozen-lockfile --network-timeout 120000
 
