@@ -7,8 +7,9 @@ WORKDIR /src
 FROM base AS source
 
 # get and extract source from git
+ARG BRANCH
 ARG VERSION
-ADD https://github.com/sct/overseerr.git#v$VERSION ./
+ADD https://github.com/sct/overseerr.git#${BRANCH:-v$VERSION} ./
 
 # apply available patches
 RUN apk add --no-cache patch
