@@ -63,9 +63,6 @@ WORKDIR /config
 VOLUME /config
 EXPOSE 5055
 
-# runtime dependencies
-RUN apk add --no-cache tzdata s6-overlay nodejs-current curl
-
 # copy files
 COPY --from=source /src/package.json /src/overseerr-api.yml /app/
 COPY --from=build-backend /src/node_modules /app/node_modules
@@ -73,6 +70,9 @@ COPY --from=build-backend /src/public /app/public
 COPY --from=build-backend /src/dist /app/dist
 COPY --from=build-backend /src/.next /app/.next
 COPY ./rootfs/. /
+
+# runtime dependencies
+RUN apk add --no-cache tzdata s6-overlay nodejs-current curl
 
 # run using s6-overlay
 ENTRYPOINT ["/init"]
