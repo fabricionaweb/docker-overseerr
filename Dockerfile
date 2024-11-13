@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1-labs
-FROM public.ecr.aws/docker/library/alpine:3.19 AS base
+FROM public.ecr.aws/docker/library/alpine:3.20 AS base
 ENV TZ=UTC
 WORKDIR /src
 
@@ -21,7 +21,7 @@ FROM base AS build-backend
 ENV NEXT_TELEMETRY_DISABLED=1 CYPRESS_INSTALL_BINARY=0
 
 # dependencies
-RUN apk add --no-cache build-base python3 nodejs-current && corepack enable
+RUN apk add --no-cache build-base python3 yarn
 
 # node_modules
 COPY --from=source /src/package.json /src/yarn.lock /src/tsconfig.json ./
@@ -74,7 +74,7 @@ COPY --from=build-backend /src/.next /app/.next
 COPY ./rootfs/. /
 
 # runtime dependencies
-RUN apk add --no-cache tzdata s6-overlay nodejs-current curl
+RUN apk add --no-cache tzdata s6-overlay nodejs curl
 
 # run using s6-overlay
 ENTRYPOINT ["/init"]
